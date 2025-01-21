@@ -37,7 +37,7 @@
 
 
 ### Полезные ссылки
-- [Ссылка на финальный проект по ручному тестированию](https://www.notion.so/13017e33eb094c5ea9aafda6e2b259ec)
+- [Ссылка на финальный проект по ручному тестированию](https://www.notion.so/113b447a6f1480a3aab9c19c50932dbd)
 - [Подсказка по markdown](https://www.markdownguide.org/basic-syntax/)
 - [Генератор файла .gitignore](https://www.toptal.com/developers/gitignore)
 
