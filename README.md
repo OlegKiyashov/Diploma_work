@@ -1,5 +1,5 @@
 
-# Diploma_work
+# Diploma_work.
 
 ## Дипломная работа.
 
