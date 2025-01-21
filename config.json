@@ -1,0 +1,9 @@
+
+{
+    "base_url_ui": "https://www.kinopoisk.ru/",
+    "base_url_api": "https://api.kinopoisk.dev/v1.4/",
+    "token_api": {
+        "X-API-KEY": "20C9F62-RSKM3E4-NJCBSZ5-V8TX53X"
+    }
+}
+
