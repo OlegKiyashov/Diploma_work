@@ -5,15 +5,20 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from api.film_api import FilmApi
 from api.person_api import PersonApi
+import os
 
 
-config_path = "/Users/olegk/Desktop/pythonProject/Diploma_work/config.json"
+config_path = os.path.join(os.path.dirname(__file__), "config.json")
 
-with open(config_path, "r") as config_file:
-    config = json.load(config_file)
+try:
+    with open(config_path, "r") as config_file:
+        config = json.load(config_file)
+except FileNotFoundError:
+    raise FileNotFoundError(f"Конфигурационный файл не найден по пути: {config_path}")
 
 base_url_api = config.get("base_url_api")
 token_api = config.get("token_api")
+
 
 
 @pytest.fixture
@@ -22,7 +27,7 @@ def driver():
         service=ChromeService(ChromeDriverManager().install())
     )
     driver.get("https://www.kinopoisk.ru")
-    driver.implicitly_wait(4)
+    driver.implicitly_wait(10)
     driver.maximize_window()
     yield driver
     driver.quit()
