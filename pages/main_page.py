@@ -15,7 +15,6 @@ class MainPage:
 
     @allure.step("Обрабатываем капчу, если она появляется.")
     def captcha(self):
-        """Обрабатывает капчу, если она появляется."""
         try:
             self._driver.find_element(
                 By.CSS_SELECTOR, ".CheckboxCaptcha-Button"
@@ -25,7 +24,6 @@ class MainPage:
 
     @allure.step("Вводим данные в поле поиска: {info_to_search}")
     def enter_search_info(self, info_to_search: str):
-        """Вводит данные в поисковое поле."""
         search_field = self._driver.find_element(
             By.CSS_SELECTOR,
             ".kinopoisk-header-search-form-input__input[aria-label="
@@ -36,13 +34,11 @@ class MainPage:
 
     @allure.step("Получаем текст элементов в подсказках к поисковому полю.")
     def get_search_field_list(self, selector: str) -> List[str]:
-        """Собирает список элементов в подсказках к поисковому полю."""
         elements = self._driver.find_elements(By.CSS_SELECTOR, selector)
         return [element.text for element in elements]
 
     @allure.step("Нажимаем кнопку поиска.")
     def click_search_button(self):
-        """Нажимает кнопку поиска."""
         self._driver.find_element(
             By.CSS_SELECTOR, "button[type='submit']"
         ).click()
@@ -51,7 +47,6 @@ class MainPage:
     def get_element_from_search_result_page(
         self, css_selector: str
     ) -> Tuple[WebElement, str]:
-        """Ожидает появления элемента на странице и возвращает его."""
         element = WebDriverWait(self._driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, css_selector))
         )
@@ -63,9 +58,8 @@ class MainPage:
         text_link = a_link.text
         return a_link, text_link
 
-    @allure.step("Выполняем поиск фильма: {info_to_search}.")
+    @allure.step("Выполняем поиск фильма на латинице")
     def search_film_l(self, info_to_search: str) -> Tuple[List[str], str, str]:
-        """Ищет фильм, возвращает его название."""
         self.captcha()
         self.enter_search_info(info_to_search)
 
@@ -94,9 +88,8 @@ class MainPage:
             )
         return found_movie_titles, film_text_link, name_film_personal_page.text
 
-    @allure.step("Выполняем поиск фильма: {info_to_search}.")
+    @allure.step("Выполняем поиск фильма на кириллице")
     def search_film_k(self, info_to_search: str) -> Tuple[List[str], str, str]:
-        """Ищет фильм, возвращает его название."""
         self.captcha()
         self.enter_search_info(info_to_search)
 
@@ -127,11 +120,10 @@ class MainPage:
                 name_film_personal_page.text,
             )
 
-    @allure.step("Выполняем поиск персоны: {info_to_search}.")
+    @allure.step("Выполняем поиск персоны на латинице")
     def search_person_l(
         self, info_to_search: str
     ) -> Tuple[List[str], str, str]:
-        """Ищет персону, возвращает данные."""
         self.captcha()
         self.enter_search_info(info_to_search)
         found_person_titles = self.get_search_field_list(
@@ -157,11 +149,10 @@ class MainPage:
                 name_surname_person_private_page.text,
             )
 
-    @allure.step("Выполняем поиск персоны: {info_to_search}.")
+    @allure.step("Выполняем поиск персоны на кириллице")
     def search_person_k(
         self, info_to_search: str
     ) -> Tuple[List[str], str, str]:
-        """Ищет персону, возвращает её данные."""
         self.captcha()
         self.enter_search_info(info_to_search)
         found_person_titles = self.get_search_field_list(
@@ -188,10 +179,9 @@ class MainPage:
             )
 
     @allure.step(
-        "Выполняем поиск по несуществующему названию:" " {info_to_search}."
+        "Выполняем поиск по несуществующему названию"
     )
     def non_existent_search(self, info_to_search: str) -> str:
-        """Проверяет корректность сообщения для пустого результата поиска."""
         self.captcha()
         self.enter_search_info(info_to_search)
         self.click_search_button()
