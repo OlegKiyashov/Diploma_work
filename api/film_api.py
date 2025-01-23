@@ -2,6 +2,7 @@ import requests
 from typing import List, Dict, Any, Tuple
 import json
 import os
+import allure
 
 
 # Загрузка конфигурации
@@ -29,27 +30,27 @@ class FilmApi:
     def __init__(self, url):
         self.url = url
 
+    @allure.step("Метод поиск фильма по названию")
     def search_film_by_name(
         self, name_to_search: str
     ) -> Tuple[Dict[str, Any], int]:
-        """Метод поиск фильма по названию"""
         result_search_by_name = requests.get(
             base_url_api + "movie/search?query=" + name_to_search,
             headers=token_api,
         )
         return result_search_by_name.json(), result_search_by_name.status_code
 
+    @allure.step("Метод поиск по id фильма")
     def search_film_by_id(self, id: int) -> Tuple[Dict[str, Any], int]:
-        """Метод поиск по id фильма"""
         result_search_by_id = requests.get(
             base_url_api + "movie/" + str(id), headers=token_api
         )
         return result_search_by_id.json(), result_search_by_id.status_code
 
+    @allure.step("Метод поиск по переданному значению")
     def search_by_fields(
         self, field: str, id: int = None
     ) -> Tuple[List[Dict[str, str]], int]:
-        """Метод поиск по передаваемому значению"""
         url = (f"https://api.kinopoisk.dev/v1/"
                f"movie/possible-values-by-field?field={field}")
         if id:
