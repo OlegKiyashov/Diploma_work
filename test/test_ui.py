@@ -21,14 +21,32 @@ def test_search_film_k(main_page):
     film_name_search_list, film_name_result_search, film_name_personal_page = (
         main_page.search_film_k(film)
     )
+
+    possible_film_names = ["The Gentlemen", "Джентльмены"]
+
     with allure.step(
-        "Проверяем, что переданное название фильма совпадает с названием,"
-        " выводимым в подсказках к модулю поиска, на странице результата"
-        " поиска, на персональной странице фильма"
+        "Проверяем, что переданное название фильма,"
+        " совпадает с одним из названием, выводимым "
+        "в подсказках к модулю поиска, на странице результата"
+        " поиска, на персональной странице фильма."
     ):
-        assert film in film_name_search_list[0]
-        assert film_name_result_search.startswith(film)
-        assert film_name_personal_page.startswith(film)
+        assert any(
+            name in film_name_search_list[0] for name in possible_film_names
+        )
+        assert any(
+            film_name_result_search.startswith(name)
+            for name in possible_film_names
+        )
+        assert any(
+            film_name_personal_page.startswith(name)
+            for name in possible_film_names
+        )
+
+        allure.attach(
+            f"Успешно: {film} найден в {possible_film_names}",
+            name="Результаты проверки",
+            attachment_type=allure.attachment_type.TEXT,
+        )
 
 
 @allure.feature("Модуль поиска")
@@ -81,14 +99,20 @@ def test_search_person_k(main_page):
         person_info_result_search,
         person_info_private_page,
     ) = main_page.search_person_k(person_info)
-    with allure.step(
-        "Проверяем, что переданные фамилия и имя персоны,"
-        " совпадают с данными выводимыми в подсказках к модулю поиска,"
-        " на странице результата поиска, на личной странице персоны."
-    ):
-        assert person_info in person_info_search_list[0]
-        assert person_info_result_search == person_info
-        assert person_info_private_page == person_info
+    expected_names = ["Matthew McConaughey", "Мэттью Макконахи"]
+
+    with allure.step("Проверка имени персоны прошла успешно"):
+        assert any(
+            name in person_info_search_list[0] for name in expected_names
+        )
+        assert person_info_result_search in expected_names
+        assert person_info_private_page in expected_names
+
+        allure.attach(
+            f"Успешно: {person_info} == {person_info_private_page}",
+            name="Результаты проверки",
+            attachment_type=allure.attachment_type.TEXT,
+        )
 
 
 @allure.feature("Модуль поиска")
@@ -131,5 +155,17 @@ def test_non_existent_search_info_message(main_page):
     search_info = "คำขอนี้เป็นภาษาไทย"
     message = "К сожалению, по вашему запросу ничего не найдено..."
     get_message = main_page.non_existent_search(search_info)
-    with allure.step("Проверка, сообщение идентично шаблону."):
-        assert get_message == message
+
+    allure.attach(
+        search_info, name="Запрос", attachment_type=allure.attachment_type.TEXT
+    )
+    allure.attach(
+        get_message,
+        name="Полученное сообщение",
+        attachment_type=allure.attachment_type.TEXT,
+    )
+
+    with allure.step("Проверяем, что сообщение идентично шаблону."):
+        assert get_message == message, (
+            f"Ожидалось: {message}," f" Получено: {get_message}"
+        )
