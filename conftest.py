@@ -27,7 +27,7 @@ def driver():
         service=ChromeService(ChromeDriverManager().install())
     )
     driver.get("https://www.kinopoisk.ru")
-    driver.implicitly_wait(30)
+    driver.implicitly_wait(15)
     driver.maximize_window()
     yield driver
     driver.quit()

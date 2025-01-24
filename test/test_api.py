@@ -37,7 +37,6 @@ def test_get_film_by_name(api):
     with allure.step("Отправка запроса на поиск фильма"):
         result_search_by_name, status_code = api.search_film_by_name(film)
 
-    # Добавление вложения с результатом запроса
     allure.attach(
         str(result_search_by_name),
         name="Результат поиска фильма",
@@ -70,7 +69,6 @@ def test_get_film_by_id(api, film_id):
     with allure.step("Отправка запроса на поиск фильма по id"):
         result_search_by_id, status_code = api.search_film_by_id(film_id)
 
-    # Добавление вложения с результатом запроса
     allure.attach(
         str(result_search_by_id),
         name="Результат поиска фильма по ID",
@@ -105,7 +103,6 @@ def test_get_film_by_field(api):
             f"{field}&id={valid_id}"
         )
 
-    # Добавление вложения с результатом запроса
     allure.attach(
         str(result_search_by_field),
         name="Результат поиска по полю",
@@ -148,7 +145,6 @@ def test_search_person_by_name(person_api):
             person_api.search_person_by_name(person_name)
         )
 
-    # Добавление вложения с результатом запроса
     allure.attach(
         str(result_search_person_by_name),
         name="Результат поиска персоны",
@@ -187,7 +183,6 @@ def test_search_person_by_id(person_id, person_api):
             person_api.search_person_by_id(person_id)
         )
 
-    # Добавление вложения с результатом запроса
     allure.attach(
         str(result_search_person_by_id),
         name="Результат поиска по ID персоны",
